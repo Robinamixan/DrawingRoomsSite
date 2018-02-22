@@ -18,25 +18,26 @@ class DrawingRoomsController extends Controller
     {
         $roomsNames = [];
         foreach (glob("image_room/*.txt") as $filename) {
-            $roomsNames[] = basename($filename, ".txt");
+            $roomsNames[] = basename($filename, '.txt');
         }
 
         if (session_status() != 2) {
             session_start();
         }
-        if ($_SESSION['user'] != null){
+
+        if (array_key_exists('user', $_SESSION)) {
             $this->user = $_SESSION['user'];
-        }
-        else{
-            $this->user['photo'] = "images/user.png";
-            $this->user['first_name'] = "undefined user";
+        } else {
+            $this->user['photo'] = $this->generateUrl('main_page') . "assets/images/user.png";
+            $this->user['first_name'] = 'undefined user';
+            $this->user['last_name'] = '';
         }
 
         return $this->render('DrawingRooms/drawingroomslist.html.twig', array(
             'roomsNames' => $roomsNames,
             'userPhoto' => $this->user['photo'],
             'userFirstName' => $this->user['first_name'],
-            'userLastName' => $this->user['last_name']
+            'userLastName' => $this->user['last_name'],
         ));
     }
 
@@ -54,7 +55,9 @@ class DrawingRoomsController extends Controller
      */
     public function userExitAction()
     {
-        session_start();
+        if (session_status() != 2) {
+            session_start();
+        }
         $_SESSION['user'] = array();
         if (ini_get("session.use_cookies")) {
             $params = session_get_cookie_params();
@@ -64,7 +67,7 @@ class DrawingRoomsController extends Controller
         }
         session_destroy();
 
-        return $this->redirect('main_page');
+        return $this->redirect($this->generateUrl('main_page'));
     }
 
     /**
