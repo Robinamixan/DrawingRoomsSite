@@ -1,0 +1,179 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Drawing rooms
+{% endblock %}
+
+{% block body %}
+
+    <div class="preloader">
+        <div class="cssload-speeding-wheel"></div>
+    </div>
+    <div id="wrapper">
+        <nav class="navbar navbar-default navbar-static-top" style="margin-bottom: 0">
+            <div class="navbar-header">
+                <a class="navbar-toggle hidden-sm hidden-md hidden-lg " href="javascript:void(0)" data-toggle="collapse"
+                   data-target=".navbar-collapse">
+                    <i class="ti-menu"></i>
+                </a>
+                <div class="top-left-part">
+                    <a class="logo" href="{{ path('user_exit') }}">
+                        <i class="glyphicon glyphicon-fire"></i>&nbsp;
+                        <span class="hidden-xs">Drawing Rooms</span>
+                    </a></div>
+                <ul class="nav navbar-top-links navbar-left hidden-xs">
+                    <li>
+                        <a href="javascript:void(0)" class="open-close hidden-xs hidden-lg waves-effect waves-light">
+                            <i class="ti-arrow-circle-left ti-menu"></i>
+                        </a>
+                    </li>
+                </ul>
+                <ul id="title_room_panel" class="nav navbar-top-links navbar-left pull-left" hidden>
+                    <li>
+                        <a href="">
+                            <i class="ti-layout fa-fw"></i>&nbsp;
+                            <b><span id="title_room"></span></b>
+                        </a>
+                    </li>
+                    <li>
+                        <a id="delete_room_btn" href="js" class="btn btn-default btn-lg">
+                            <span class="glyphicon glyphicon-trash"></span>
+                        </a>
+                    </li>
+
+                </ul>
+                <ul class="nav navbar-top-links navbar-right pull-right">
+                    <li>
+                        <a class="profile-pic" href="#">
+                            <img src="{{ userPhoto }}" alt="user-img" width="36" class="img-circle">
+                            <b id="user_name" class="hidden-xs">
+                                {{ userFirstName }} {{ userLastName }}
+                            </b>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="UserExit.php" class="btn btn-default btn-lg">
+                            <span class="glyphicon glyphicon-log-out"></span> Log out
+                        </a>
+                    </li>
+
+                </ul>
+            </div>
+        </nav>
+        <div class="navbar-default sidebar nicescroll" role="navigation">
+            <div class="sidebar-nav navbar-collapse ">
+                <ul class="nav" id="side-menu">
+                    <li class="in">
+                        <form id="create_form" role="search" class="app-search hidden-xs" hidden>
+                            <input type="text" class="form-control" id="room_name" name="room_name"
+                                   placeholder="Room name">
+                        </form>
+                        <a href="javascript:void(0)" id="add_room" class="waves-effect" style="color: green"><span
+                                    class="glyphicon glyphicon-plus"></span> Add new room </a>
+                    </li>
+
+                    {% for room in roomsNames %}
+
+                        <li>
+                            <a href="javascript:void(0)" class="rooms waves-effect no_active" style="color: white">
+                                <i class="ti-layout fa-fw"></i>{{ room }}</a>
+                        </li>
+
+                    {% endfor %}
+
+                </ul>
+            </div>
+        </div>
+        <div id="page-wrapper">
+            <div id="toolbar_paint" class="nav navbar-top-links">
+                <button id="pencil_tool" class="btn btn-default btn-lg">
+                    <span class="glyphicon glyphicon-pencil"></span>
+                </button>
+                <input type='text' id="custom"/>
+
+                <div id="spinner_tool">
+                    <div class="input-group number-spinner" style="display: flex; flex-direction: row">
+				        <span class="input-group-btn" style="width: 43px">
+					        <button class="btn btn-default btn-lg" data-dir="dwn"><span
+                                        class="glyphicon glyphicon-minus"></span>
+                            </button>
+				        </span>
+                        <input id="width_pencil_value" type="text" class="form-control text-center" value="5">
+                        <span class="input-group-btn">
+					        <button class="btn btn-default btn-lg" data-dir="up"><span
+                                        class="glyphicon glyphicon-plus"></span>
+                            </button>
+				        </span>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="container-fluid" style="padding-top: 10px;height: 93%;width: 100%;position: absolute;">
+                <iframe ID="field_draw" src="{{ path('room_canvas') }}" width="100%" height="100%" align="left">
+                    It not work
+                </iframe>
+            </div>
+        </div>
+    </div>
+    <!-- jQuery -->
+
+
+
+
+{% endblock %}
+
+{% block stylesheets %}
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('assets/images/favicon.png') }}">
+    <link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet"/>
+    <link href="{{ asset('assets/css/metisMenu.min.css') }}" rel="stylesheet"/>
+    <link href="{{ asset('assets/css/morris.css') }}" rel="stylesheet"/>
+    <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet"/>
+    <link href="{{ asset('assets/css/spectrum.css') }}" rel="stylesheet"/>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <style>
+
+        #toolbar_paint {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            padding: 5px;
+        }
+
+        #toolbar_paint #pencil_tool {
+            margin-right: 5px
+        }
+
+        #toolbar_paint #spinner_tool {
+            margin-left: 5px
+        }
+
+        #toolbar_paint #width_pencil_value {
+            height: 42px;
+            border-color: #cccccc;
+            width: 50px
+        }
+
+    </style>
+
+{% endblock %}
+
+{% block javascripts %}
+
+    <script src="{{ asset('assets/js/jquery.min.js') }}"></script>
+    <script src="{{ asset('assets/js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('assets/js/metisMenu.min.js') }}"></script>
+    <script src="{{ asset('assets/js/jquery.nicescroll.js') }}"></script>
+    <script src="{{ asset('assets/js/raphael-min.js') }}"></script>
+    <script src="{{ asset('assets/js/waves.js') }}"></script>
+    <script src="{{ asset('assets/js/myadmin.js') }}"></script>
+    <script src="{{ asset('assets/js/rooms.js') }}"></script>
+    <script src='{{ asset('assets/js/spectrum.js') }}'></script>
+
+{% endblock %}
