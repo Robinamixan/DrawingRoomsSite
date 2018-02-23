@@ -3,7 +3,7 @@ $(function () {
 
     $('#field_draw').hide();
 
-    $('.rooms').click(function (evt) {
+    $('.rooms').on("click", function (evt) {
         evt.preventDefault();
 
         if ($('#user_name').text() !== 'undefined user '){
@@ -31,7 +31,6 @@ $(function () {
         $(arguments).get(0).preventDefault();
 
         var getUrl = 'http://drawingrooms.loc/rooms/delete';
-        alert($('#title_room').text().trim());
 
         $.ajax({
             url: getUrl,
@@ -78,11 +77,17 @@ $(function () {
     }
 
     function change_title_canvas(title) {
-        $('#field_draw').load(function () {
-            var d = $(this).contents().find('title');
-            d.text(title);
-            change_brush_color($("#custom").spectrum("get"));
-        });
+        var path = $('#iframe_canvas_title');
+        var color_brush = $("#custom").spectrum("get").toHexString();
+        var width_brush = $('#width_pencil_value').val();
+        var fullPath = path.text() +
+            '?canvas_title=' + title.trim() +
+            '&width_brush=' + width_brush +
+            '&color_brush=' + color_brush.replace('#', '%23')
+        ;
+
+        var ifr = $('#field_draw');
+        ifr.attr('src', fullPath);
     }
 
     function change_brush_color(color) {
@@ -119,4 +124,8 @@ $(function () {
         btn.closest('.number-spinner').find('input').val(newVal);
         change_width_color(newVal);
     });
+
+    $('#width_pencil_value').on("change", function () {
+        change_width_color($('#width_pencil_value').val());
+    })
 });

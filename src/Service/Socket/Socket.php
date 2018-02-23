@@ -16,7 +16,7 @@ class Socket implements MessageComponentInterface {
     }
 
     public function onOpen(ConnectionInterface $conn) {
-        // Store the new connection to send messages to later
+
         $this->clients->attach($conn);
 
         echo "New connection! ({$conn->resourceId})\n";
@@ -27,6 +27,7 @@ class Socket implements MessageComponentInterface {
         $temp = json_decode($msg);
 
         if($temp->action == "set"){
+
             $this->file_for_save = $temp->room;
             if (file_exists($this->file_for_save)) {
                 $json_message = $this->getJSON($this->file_for_save, $temp->img);
@@ -46,6 +47,7 @@ class Socket implements MessageComponentInterface {
         }
         elseif ($temp->action == "get"){
             $this->file_for_save = $temp->img;
+//            echo 'get ' . $temp->img . "\n";
             if (file_exists($this->file_for_save)) {
                 $img = file_get_contents($this->file_for_save);
                 $json_message = $this->getJSON($this->file_for_save, $img);

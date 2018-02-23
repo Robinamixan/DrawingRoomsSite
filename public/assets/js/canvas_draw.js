@@ -92,6 +92,10 @@ $(function () {
         }
     }
 
+    setTimeout(function () {
+
+    }, 1000);
+
     init();
     ws = new WebSocket("ws://127.0.0.1:2346");
 
@@ -111,7 +115,6 @@ $(function () {
         if (e.data !== 'file_not_found')
         {
             var obj = $.parseJSON(e.data);
-
             var currentroom = 'public/image_room/' + document.title + '.txt';
 
             if (currentroom === obj.room)

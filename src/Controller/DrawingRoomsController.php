@@ -45,9 +45,16 @@ class DrawingRoomsController extends Controller
     /**
      * @Route("/drawing/canvas", name="room_canvas")
      */
-    public function canvasAction()
+    public function canvasAction(Request $request)
     {
-        return $this->render('DrawingRooms/drawcanvas.html.twig', array());
+        $canvas_title = $request->get('canvas_title');
+        $color_line = $request->get('color_brush');
+        $width_line = $request->get('width_brush');
+        return $this->render('DrawingRooms/drawcanvas.html.twig', array(
+            'canvas_title' => $canvas_title,
+            'color_brush' => $color_line,
+            'width_brush' => $width_line,
+        ));
     }
 
     /**

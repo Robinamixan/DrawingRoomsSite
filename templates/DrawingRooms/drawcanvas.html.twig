@@ -1,15 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}
-    Room 1
-{% endblock %}
+{% block title %}{{ canvas_title }}{% endblock %}
 
 {% block body %}
 
     <div hidden>
         <span id="active_tool">brush</span>
-        <span id="width_brush">5</span>
-        <span id="color_brush">#223355</span>
+        <span id="width_brush">{{ width_brush }}</span>
+        <span id="color_brush">{{ color_brush }}</span>
 
     </div>
 
