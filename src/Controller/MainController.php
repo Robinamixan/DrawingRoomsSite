@@ -12,6 +12,7 @@ namespace App\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class MainController extends Controller
 {
@@ -21,9 +22,10 @@ class MainController extends Controller
      * @Route("/", name="main_page")
      *
      * @param Request $request
+     * @param AuthenticationUtils $authUtils
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function fileLoadAction(Request $request)
+    public function fileLoadAction(Request $request, AuthenticationUtils $authUtils)
     {
         if (array_key_exists('token', $_POST)) {
             $ulogin_response = file_get_contents('http://ulogin.ru/token.php?token='.$_POST['token'].'&host='.$_SERVER['HTTP_HOST']);
@@ -43,7 +45,12 @@ class MainController extends Controller
             }
         }
 
+        $error = $authUtils->getLastAuthenticationError();
+        $lastUsername = $authUtils->getLastUsername();
 
-        return $this->render('Authorization/authorization.html.twig', array());
+        return $this->render('security/authorization.html.twig', array(
+            'last_username' => $lastUsername,
+            'error'         => $error
+        ));
     }
 }

@@ -1,24 +1,70 @@
+#security:
+#    # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
+#    providers:
+#        in_memory: { memory: ~ }
+#    firewalls:
+#        dev:
+#            pattern: ^/(_(profiler|wdt)|css|images|js)/
+#            security: false
+#        main:
+#            anonymous: true
+#
+#            # activate different ways to authenticate
+#
+#            # http_basic: true
+#            # https://symfony.com/doc/current/security.html#a-configuring-how-your-users-will-authenticate
+#
+#            # form_login: true
+#            # https://symfony.com/doc/current/security/form_login_setup.html
+#
+#    # Easy way to control access for large sections of your site
+#    # Note: Only the *first* access control that matches will be used
+#    access_control:
+#        # - { path: ^/admin, roles: ROLE_ADMIN }
+#        # - { path: ^/profile, roles: ROLE_USER }
+## To get started with security, check out the documentation:
+## https://symfony.com/doc/current/security.html
 security:
-    # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
+
+    # https://symfony.com/doc/current/security.html#b-configuring-how-users-are-loaded
     providers:
-        in_memory: { memory: ~ }
+        our_db_provider:
+                    entity:
+                        class: App:User
+
+    encoders:
+        App\Entity\User:
+            algorithm: bcrypt
+
     firewalls:
+        # disables authentication for assets and the profiler, adapt it according to your needs
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
-        main:
-            anonymous: true
 
+        main:
+            anonymous: ~
+
+            pattern:    ^/
+            provider: our_db_provider
+            logout_on_user_change: true
             # activate different ways to authenticate
 
-            # http_basic: true
             # https://symfony.com/doc/current/security.html#a-configuring-how-your-users-will-authenticate
+            #http_basic: ~
 
-            # form_login: true
             # https://symfony.com/doc/current/security/form_login_setup.html
+            form_login:
+                login_path: login
+                check_path: login
 
-    # Easy way to control access for large sections of your site
-    # Note: Only the *first* access control that matches will be used
+            # ...
+            logout:
+                path:   /logout
+                target: /
+    role_hierarchy:
+        ROLE_ADMIN:       ROLE_USER
+
     access_control:
-        # - { path: ^/admin, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
+            # require ROLE_ADMIN for /admin*
+            - { path: ^/control, roles: ROLE_ADMIN }

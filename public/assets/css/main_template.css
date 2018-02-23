@@ -1,0 +1,7 @@
+header.navbar {
+    background-color: #384452;
+}
+
+header.navbar #site_title {
+    color: white;
+}

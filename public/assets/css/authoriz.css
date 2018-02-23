@@ -8,6 +8,13 @@ body{
     background-size: cover;
 }
 
+.login_form {
+    border: 2px solid grey;
+    border-radius: 15px;
+    background-color: #384452;
+    padding: 10px;
+}
+
 .authoris_panel{
     display: flex;
     flex-direction: row;

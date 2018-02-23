@@ -1,0 +1,50 @@
+{# templates/security/login.html.twig #}
+{# ... you will probably extend your base template, like base.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Authentication
+{% endblock title %}
+
+{% block body %}
+
+{% if error %}
+    <div style="color: red">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+{% endif %}
+
+    <div class="col-md-4"></div>
+
+    <div class="col-md-4">
+        <section class="login_form">
+            <form method="post" action="{{ path('login') }}">
+
+                <input type="text" id="username" name="_username" class="form-control input-lg" value="{{ last_username }}" placeholder="Login" required/>
+
+                <input type="password" id="password" name="_password" class="form-control input-lg" placeholder="Password" required/>
+                <div class="pwstrength_viewport_progress"></div>
+                <br>
+
+                <button type="submit" name="go" class="btn btn-lg btn-primary btn-block">Sign in</button>
+                <div>
+                    <a class="link" href="{{ path('registration') }}">Create account</a> or <a class="link" href="{{ path('check') }}">reset password</a>
+                </div>
+
+            </form>
+        </section>
+    </div>
+
+    <div class="col-md-4"></div>
+
+{% endblock body %}
+
+{% block stylesheets %}
+    <style>
+        .login_form {
+            border: 2px solid grey;
+            border-radius: 15px;
+            background-color: #384452;
+            padding: 10px;
+        }
+    </style>
+{% endblock  stylesheets%}

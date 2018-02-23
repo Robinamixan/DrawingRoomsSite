@@ -1,0 +1,66 @@
+{# templates/security/login.html.twig #}
+{# ... you will probably extend your base template, like base.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <div class="col-md-3"></div>
+
+    <div class="col-md-6">
+        <section class="row user_form">
+            <div class="col-md-6">
+                <div class="text_label">Username:</div>
+                <div class="text_label">Email:</div>
+                <div class="text_label">Full Name:</div>
+                <div class="text_label">Role User:</div>
+            </div>
+            <div class="col-md-6">
+                <div class="text_label">{{ app.user.username }} </div>
+                <div class="text_label">{{ app.user.email }} </div>
+                <div class="text_label">{{ app.user.fullname }} </div>
+                <div class="text_label">{{ app.user.Roles[0] }} </div>
+            </div>
+
+        </section>
+
+        <section class="row user_form">
+            <h4>Results</h4>
+            <div class="col-md-6">
+                {% for result in results  %}
+                    <div class="text_label">{{ result.name }} </div>
+                {% endfor %}
+            </div>
+            <div class="col-md-6">
+                {% for result in results  %}
+                    <div class="text_label">{{ result.right_amount}} </div>
+                {% endfor %}
+            </div>
+
+        </section>
+    </div>
+
+    <div class="col-md-3"></div>
+
+{% endblock body %}
+
+{% block stylesheets %}
+    <style>
+        .user_form {
+            border: 2px solid black;
+            border-radius: 10px;
+            padding: 5px;
+            background-color: #384452;
+            margin-bottom: 15px;
+        }
+
+        .text_label {
+            color: white;
+            font-size: 18px;
+        }
+
+        h4 {
+            color: white!important;
+        }
+    </style>
+{% endblock  stylesheets%}

@@ -8,7 +8,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity(repositoryClass="AppBundle\Repository\UserRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  * @ORM\Table(name="Accounts", indexes={
  *                                          @ORM\Index(name="User_Email_uindex", columns={"email"}),
  *                                          @ORM\Index(name="User_Login_uindex", columns={"username"})
