@@ -25,26 +25,8 @@ class MainController extends Controller
      * @param AuthenticationUtils $authUtils
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function fileLoadAction(Request $request, AuthenticationUtils $authUtils)
+    public function mainPageAction(Request $request, AuthenticationUtils $authUtils)
     {
-        if (array_key_exists('token', $_POST)) {
-            $ulogin_response = file_get_contents('http://ulogin.ru/token.php?token='.$_POST['token'].'&host='.$_SERVER['HTTP_HOST']);
-
-            $user = json_decode($ulogin_response, true);
-
-            if (!array_key_exists("error", $user)) {
-
-
-                if (session_status() != 2) {
-                    session_start();
-                }
-
-                $_SESSION['user'] = $user;
-
-                return $this->redirect($this->generateUrl('drawing_rooms'));
-            }
-        }
-
         $error = $authUtils->getLastAuthenticationError();
         $lastUsername = $authUtils->getLastUsername();
 
@@ -54,3 +36,23 @@ class MainController extends Controller
         ));
     }
 }
+
+//        var_dump($this->getUser());die();
+//        if (array_key_exists('token', $_POST)) {
+//            $ulogin_response = file_get_contents('http://ulogin.ru/token.php?token='.$_POST['token'].'&host='.$_SERVER['HTTP_HOST']);
+//
+//            $user = json_decode($ulogin_response, true);
+//
+//
+//
+//            if (!array_key_exists("error", $user)) {
+//
+//                if (session_status() != 2) {
+//                    session_start();
+//                }
+//
+//                $_SESSION['user'] = $user;
+//
+//                return $this->redirect($this->generateUrl('drawing_rooms'));
+//            }
+//        }

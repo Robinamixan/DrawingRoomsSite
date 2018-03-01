@@ -48,6 +48,8 @@ class ResetPasswordController extends Controller
     /**
      * @param Request $request
      *
+     * @param UserPasswordEncoderInterface $passwordEncoder
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      * @Route("/reset_password", name="reset_password")
      */
     public function resetPasswordAction(Request $request, UserPasswordEncoderInterface $passwordEncoder)

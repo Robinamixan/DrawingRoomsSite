@@ -48,20 +48,25 @@ security:
             pattern:    ^/
             provider: our_db_provider
             logout_on_user_change: true
+
+            guard:
+                authenticators:
+                    - app.security.login_form_authenticator
+
             # activate different ways to authenticate
 
             # https://symfony.com/doc/current/security.html#a-configuring-how-your-users-will-authenticate
             #http_basic: ~
 
             # https://symfony.com/doc/current/security/form_login_setup.html
-            form_login:
-                login_path: login
-                check_path: login
+#            form_login:
+#                login_path: main_page
+#                check_path: main_page
 
-            # ...
             logout:
                 path:   /logout
-                target: /
+                target: /login
+
     role_hierarchy:
         ROLE_ADMIN:       ROLE_USER
 

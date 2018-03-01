@@ -1,5 +1,7 @@
 header.navbar {
     background-color: #384452;
+    border-bottom: 2px solid grey;
+    padding: 10px;
 }
 
 header.navbar #site_title {
