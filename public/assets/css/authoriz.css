@@ -3,11 +3,6 @@ html{
     height: 100%;
 }
 
-body{
-    background:url("../images/890.jpg") no-repeat;
-    background-size: cover;
-}
-
 .login_form {
     border: 2px solid grey;
     border-radius: 15px;

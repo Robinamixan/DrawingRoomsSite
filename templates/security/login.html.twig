@@ -1,4 +1,4 @@
-{% extends 'base2.html.twig' %}
+{% extends 'base.html.twig' %}
 
 {% block title %}
     Authorization
@@ -10,7 +10,7 @@
         <div class="col-md-2"></div>
 
         <div class="col-md-8">
-            <img src="{{ asset('assets/images/33333.png') }}" class="img-responsive">
+            <img src="{{ asset('assets/images/welcome_image.png') }}" class="img-responsive">
             <section class="login_form">
                 <div class="row">
 
@@ -27,11 +27,35 @@
                         {{ form_row(form._username) }}
                         {{ form_row(form._password) }}
 
-                        <button type="submit" class="btn btn-success">Login<span class="fa fa-lock"></span></button>
+                        <button type="submit" name="go" class="btn btn-lg btn-primary btn-block">
+                            <span class="fa fa-lock"></span>
+                            Sign in
+                        </button>
                         {{ form_end(form) }}
+                        <div>
+                            <a class="link" href="{{ path('registration') }}">Create account</a> or <a class="link" href="{{ path('check') }}">reset password</a>
+                        </div>
 
                     </div>
                     <div class="col-md-3"></div>
+                </div>
+                <div class="row">
+                    <div class="authoris_panel">
+                        <div id="uLogin" class="btn-group authoriz" data-ulogin="display=buttons;fields=first_name,last_name,photo,nickname,email;
+            redirect_uri=http://drawingrooms.loc/login">
+                            <a id="btn_vk" class="btn btn-social btn-vk btn_author" data-uloginbutton = "vkontakte">
+                                <span class="fa fa-vk"></span> Sign in with Vkontakte
+                            </a>
+
+                            <a id="btn_facebook" class="btn btn-social btn-facebook btn_author" data-uloginbutton = "facebook">
+                                <span class="fa fa-facebook"></span> Sign in with Facebook
+                            </a>
+
+                            <a id="btn_twitter" class="btn btn-social btn-twitter" data-uloginbutton = "twitter">
+                                <span class="fa fa-twitter"></span> Sign in with Twitter
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </section>
         </div>
@@ -43,8 +67,7 @@
 
 {% block stylesheets %}
 
-    <link href="{{ asset('assets/css/bootstrap-theme.css') }}" rel="stylesheet" >
-    <link href="{{ asset('assets/css/bootstrap-social.css') }}" rel="stylesheet" />
+
     <link href="{{ asset('assets/css/authoriz.css') }}" rel="stylesheet" />
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" >
     <script src="//ulogin.ru/js/ulogin.js"></script>

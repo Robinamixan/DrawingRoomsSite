@@ -27,13 +27,11 @@ class MainController extends Controller
      */
     public function mainPageAction(Request $request, AuthenticationUtils $authUtils)
     {
-        $error = $authUtils->getLastAuthenticationError();
-        $lastUsername = $authUtils->getLastUsername();
+        if (is_null($this->getUser())) {
+            $this->redirect($this->generateUrl('login'));
+        }
 
-        return $this->render('security/authorization.html.twig', array(
-            'last_username' => $lastUsername,
-            'error'         => $error
-        ));
+        return $this->render('MainPage/main_page.html.twig');
     }
 }
 
