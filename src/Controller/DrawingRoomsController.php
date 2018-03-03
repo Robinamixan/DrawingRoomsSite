@@ -48,12 +48,9 @@ class DrawingRoomsController extends Controller
     public function canvasAction(Request $request)
     {
         $canvas_title = $request->get('canvas_title');
-        $color_line = $request->get('color_brush');
-        $width_line = $request->get('width_brush');
+        $canvas_title = $canvas_title ? $canvas_title: 'Room 1';
         return $this->render('DrawingRooms/drawcanvas.html.twig', array(
             'canvas_title' => $canvas_title,
-            'color_brush' => $color_line,
-            'width_brush' => $width_line,
         ));
     }
 

@@ -52,6 +52,8 @@ security:
             guard:
                 authenticators:
                     - app.security.login_form_authenticator
+                    - app.security.social_buttons_authenticator
+            entry_point: App\Security\LoginFormAuthenticator
 
             # activate different ways to authenticate
 

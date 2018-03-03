@@ -85,31 +85,7 @@
             </div>
         </div>
         <div id="page-wrapper">
-            <div id="toolbar_paint" class="nav navbar-top-links">
-                <button id="pencil_tool" class="btn btn-default btn-lg">
-                    <span class="glyphicon glyphicon-pencil"></span>
-                </button>
 
-                <input type='text' id="custom"/>
-
-                <div id="spinner_tool">
-                    <div class="input-group number-spinner" style="display: flex; flex-direction: row">
-				        <span class="input-group-btn" style="width: 43px">
-					        <button class="btn btn-default btn-lg" data-dir="dwn"><span
-                                        class="glyphicon glyphicon-minus"></span>
-                            </button>
-				        </span>
-                        <input id="width_pencil_value" type="text" class="form-control text-center" value="5">
-                        <span class="input-group-btn">
-					        <button class="btn btn-default btn-lg" data-dir="up"><span
-                                        class="glyphicon glyphicon-plus"></span>
-                            </button>
-				        </span>
-                    </div>
-                </div>
-
-
-            </div>
             <div class="container-fluid" style="padding-top: 10px;height: 93%;width: 100%;position: absolute;">
                 <div id="iframe_canvas_title" class="hidden">{{ path('room_canvas') }}</div>
                 <iframe ID="field_draw" src="{{ path('room_canvas') }}" width="100%" height="100%" align="left">
@@ -136,31 +112,10 @@
     <link href="{{ asset('assets/css/metisMenu.min.css') }}" rel="stylesheet"/>
     <link href="{{ asset('assets/css/morris.css') }}" rel="stylesheet"/>
     <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet"/>
-    <link href="{{ asset('assets/css/spectrum.css') }}" rel="stylesheet"/>
+
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <style>
-
-        #toolbar_paint {
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            padding: 5px;
-        }
-
-        #toolbar_paint #pencil_tool {
-            margin-right: 5px
-        }
-
-        #toolbar_paint #spinner_tool {
-            margin-left: 5px
-        }
-
-        #toolbar_paint #width_pencil_value {
-            height: 42px;
-            border-color: #cccccc;
-            width: 50px
-        }
 
     </style>
 
@@ -176,6 +131,6 @@
     <script src="{{ asset('assets/js/waves.js') }}"></script>
     <script src="{{ asset('assets/js/myadmin.js') }}"></script>
     <script src="{{ asset('assets/js/rooms.js') }}"></script>
-    <script src='{{ asset('assets/js/spectrum.js') }}'></script>
+
 
 {% endblock %}

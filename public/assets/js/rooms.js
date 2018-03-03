@@ -78,54 +78,8 @@ $(function () {
 
     function change_title_canvas(title) {
         var path = $('#iframe_canvas_title');
-        var color_brush = $("#custom").spectrum("get").toHexString();
-        var width_brush = $('#width_pencil_value').val();
-        var fullPath = path.text() +
-            '?canvas_title=' + title.trim() +
-            '&width_brush=' + width_brush +
-            '&color_brush=' + color_brush.replace('#', '%23')
-        ;
-
+        var fullPath = path.text() + '?canvas_title=' + title.trim();
         var ifr = $('#field_draw');
         ifr.attr('src', fullPath);
     }
-
-    function change_brush_color(color) {
-        var h = $('#field_draw').contents().find('#color_brush');
-        h.text(color.toHexString());
-    }
-
-    function change_width_color(wd) {
-        var h = $('#field_draw').contents().find('#width_brush');
-        h.text(wd);
-    }
-
-    $("#custom").spectrum({
-        color: "#f00",
-        change: function(color) {
-            change_brush_color(color);
-        }
-    });
-
-    $(document).on('click', '.number-spinner button', function () {
-        var btn = $(this),
-            oldValue = btn.closest('.number-spinner').find('input').val().trim(),
-            newVal = 0;
-
-        if (btn.attr('data-dir') == 'up') {
-            newVal = parseInt(oldValue) + 1;
-        } else {
-            if (oldValue > 1) {
-                newVal = parseInt(oldValue) - 1;
-            } else {
-                newVal = 1;
-            }
-        }
-        btn.closest('.number-spinner').find('input').val(newVal);
-        change_width_color(newVal);
-    });
-
-    $('#width_pencil_value').on("change", function () {
-        change_width_color($('#width_pencil_value').val());
-    })
 });

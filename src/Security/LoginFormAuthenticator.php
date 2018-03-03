@@ -36,19 +36,6 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
 
     public function getCredentials(Request $request)
     {
-
-
-        $token = $request->get('token');
-        if (!is_null($token)) {
-            $ulogin_response = file_get_contents('http://ulogin.ru/token.php?token='.$token.'&host='.$_SERVER['HTTP_HOST']);
-            $user = json_decode($ulogin_response, true);
-            $data['_username'] = $user['nickname'] . $user['uid'];
-            $data['_password'] = $user['network'] . $user['uid'];
-            $data['_token'] = $token;
-            $data['user_info'] = $user;
-            return $data;
-        }
-
         $form = $this->formFactory->create(LoginForm::class);
         $form->handleRequest($request);
         $data = $form->getData();
@@ -64,24 +51,14 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
     public function getUser($credentials, UserProviderInterface $userProvider)
     {
         $username = $credentials['_username'];
-
         $user = $this->em->getRepository('App:User')
             ->findOneBy(['username' => $username]);
-
-        if(!$user && !is_null($credentials['_token'])) {
-            var_dump('need registration!'); die();
-        }
 
         return $user;
     }
 
     public function checkCredentials($credentials, UserInterface $user)
     {
-//        var_dump($user);die();
-//        $username = $credentials['_username'];
-//        $user =  $this->em->getRepository('App:User')
-//            ->findOneBy(['username' => $username]);
-
         $passwordForm = $credentials['_password'];
 
         if ($this->userPasswordEncoder->isPasswordValid($user, $passwordForm)) {
@@ -97,7 +74,12 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
 
     public function supports(Request $request)
     {
-        $isLoginSubmit = $request->getPathInfo() == '/login';
+        $token = $request->get('token');
+        if (!is_null($token)) {
+            return null;
+        }
+
+        $isLoginSubmit = $request->getPathInfo() === '/login';
         if (!$isLoginSubmit) {
 
             return null;
@@ -105,7 +87,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
 
         if (!$request->isMethod('POST'))
         {
-            return false;
+            return null;
         }
         return true;
     }

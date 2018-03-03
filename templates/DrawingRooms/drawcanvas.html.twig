@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+{% extends 'base_canvas.html.twig' %}
 
 {% block title %}{{ canvas_title }}{% endblock %}
 
@@ -6,21 +6,59 @@
 
     <div hidden>
         <span id="active_tool">brush</span>
-        <span id="width_brush">{{ width_brush }}</span>
-        <span id="color_brush">{{ color_brush }}</span>
+        <span id="width_brush"></span>
+        <span id="color_brush"></span>
+        <span id="shape_brush"></span>
+        <span id="line_join_brush"></span>
 
     </div>
 
-    <div id="er404" hidden>
-        <div style="justify-content: center;display: flex;flex-direction: row">
-            <img src="{{ asset('assets/images/error-404.png') }}" class="img-responsive">
+    <div id="drawing_panel">
+        <div id="toolbar_paint" class="nav navbar-top-links">
+            <button id="pencil_tool" class="btn btn-default btn-lg dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="display: inline-block; padding: 3px 0 3px 0">
+                    <span class="glyphicon glyphicon-pencil"></span>
+                    <b class="caret"></b>
+                </a>
+
+                <ul class="dropdown-menu">
+                    <div class="dropdown-menu-container">
+                        <li><img class="change_brush_arc" src="{{ asset('assets/images/icon_arc.png') }}" width="50" height="50"></li>
+                        <li><img class="change_brush_square" src="{{ asset('assets/images/icon_square.png') }}" width="50" height="50"></li>
+                    </div>
+                </ul>
+            </button>
+
+            <input type='text' id="custom"/>
+
+            <div id="spinner_tool">
+                <div class="input-group number-spinner" style="display: flex; flex-direction: row">
+			    <span class="input-group-btn" style="width: 46px">
+				    <button class="btn btn-default btn-lg" data-dir="dwn">
+                        <span class="glyphicon glyphicon-minus"></span>
+                    </button>
+				</span>
+                    <input id="width_pencil_value" type="text" class="form-control text-center" value="10">
+                    <span class="input-group-btn">
+				    <button class="btn btn-default btn-lg" data-dir="up"><span
+                                class="glyphicon glyphicon-plus"></span>
+                    </button>
+				</span>
+                </div>
+            </div>
         </div>
-    </div>
 
-    <div style="height: 100%">
-        <canvas id="conv" width="1500" height="820" style="background-color: white;">
-            Element dont work on this browser!
-        </canvas>
+        <div id="er404" hidden>
+            <div style="justify-content: center;display: flex;flex-direction: row">
+                <img src="{{ asset('assets/images/error-404.png') }}" class="img-responsive">
+            </div>
+        </div>
+
+        <div style="height: 100%; overflow-x:auto;">
+            <canvas id="conv" width="1500" height="820" style="background-color: white;">
+                Element dont work on this browser!
+            </canvas>
+        </div>
     </div>
 
 {% endblock %}
@@ -28,11 +66,62 @@
 {% block stylesheets %}
 
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link href="{{ asset('assets/css/spectrum.css') }}" rel="stylesheet"/>
+    <style>
+        #drawing_panel {
+            background-color: #384452;
+            border: 2px solid black;
+        }
+
+        #toolbar_paint {
+            background-color: #384452;
+
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            padding: 5px;
+        }
+
+        #pencil_tool ul a:hover,
+        #pencil_tool a.dropdown-toggle:focus {
+            background-color: transparent;
+        }
+
+        #pencil_tool .dropdown-menu {
+            background-color: white;
+            min-width: 65px;
+        }
+
+        #pencil_tool .dropdown-menu-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #toolbar_paint #pencil_tool {
+            margin-right: 5px
+        }
+
+        #toolbar_paint #spinner_tool {
+            margin-left: 5px
+        }
+
+        #toolbar_paint #width_pencil_value {
+            height: 46px;
+            border-color: #cccccc;
+            width: 50px
+        }
+
+        canvas {
+            cursor: url("http://s1.iconbird.com/ico/2013/6/380/w48h481372591860Brush4.png") 0 128, auto;
+        }
+    </style>
 
 {% endblock %}
 
 {% block javascripts %}
 
+    <script src='{{ asset('assets/js/spectrum.js') }}'></script>
     <script src="{{ asset('assets/js/canvas_draw.js') }}"></script>
 
 {% endblock %}

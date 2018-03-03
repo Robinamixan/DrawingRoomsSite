@@ -9,11 +9,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
- * @ORM\Table(name="Accounts", indexes={
- *                                          @ORM\Index(name="User_Email_uindex", columns={"email"}),
- *                                          @ORM\Index(name="User_Login_uindex", columns={"username"})
- *                                          })
- * @UniqueEntity(fields="email", message="This email already taken")
+ * @ORM\Table(name="Accounts", indexes={@ORM\Index(name="User_Login_uindex", columns={"username"}) })
  * @UniqueEntity(fields="username", message="This username already taken")
  */
 class User implements UserInterface, \Serializable
@@ -38,7 +34,7 @@ class User implements UserInterface, \Serializable
     private $password;
 
     /**
-     * @ORM\Column(type="string", length=40, name="email", unique=true)
+     * @ORM\Column(type="string", length=40, name="email")
      * @Assert\NotBlank()
      */
     private $email;
@@ -165,7 +161,9 @@ class User implements UserInterface, \Serializable
         ));
     }
 
-    /** @see \Serializable::unserialize() */
+    /** @see \Serializable::unserialize()
+     * @param $serialized
+     */
     public function unserialize($serialized)
     {
         list (

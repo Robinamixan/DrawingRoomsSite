@@ -29,3 +29,7 @@ services:
     app.security.login_form_authenticator:
         class: App\Security\LoginFormAuthenticator
         autowire: true
+
+    app.security.social_buttons_authenticator:
+            class: App\Security\SocialButtonAuthenticator
+            autowire: true
