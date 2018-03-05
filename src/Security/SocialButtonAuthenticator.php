@@ -122,6 +122,7 @@ class SocialButtonAuthenticator extends AbstractFormLoginAuthenticator
             $credentials['user_social_info']['nickname'] .
             $credentials['user_social_info']['uid']
         );
+        $user->setPhotoPath($credentials['user_social_info']['photo']);
         $user->setPassword($password);
         $user->setAccess($access);
         $user->setToken($user_token);

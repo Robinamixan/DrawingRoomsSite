@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-
 use App\Entity\User;
 use App\Form\CheckEmailForm;
 use App\Form\ResetPasswordForm;
@@ -10,13 +9,15 @@ use App\Service\SecurityMailer;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class ResetPasswordController extends Controller
 {
     /**
      * @Route("/check_email", name="check")
+     * @param Request $request
+     * @param SecurityMailer $securityMailer
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
     public function checkEmailAction(Request $request, SecurityMailer $securityMailer)
     {
@@ -30,17 +31,18 @@ class ResetPasswordController extends Controller
 
             $user = $this->getDoctrine()
                 ->getRepository(User::class)
-                ->findOneByEmail($form_data['email']);
+                ->findOneBy(['email' => $form_data['email']]);
 
-            if($user) {
+            if ($user) {
                 $securityMailer->sendMailResetPassword($user);
             }
-            $url = $this->generateUrl('homepage');
+            $url = $this->generateUrl('main_page');
+
             return $this->redirect($url);
         }
 
         return $this->render('security/check_email.html.twig', array(
-            'form' => $form->createView()
+            'form' => $form->createView(),
         ));
 
     }
@@ -54,11 +56,11 @@ class ResetPasswordController extends Controller
      */
     public function resetPasswordAction(Request $request, UserPasswordEncoderInterface $passwordEncoder)
     {
-        $em   = $this->getDoctrine()->getManager();
+        $em = $this->getDoctrine()->getManager();
         $token = $request->query->get('token');
         $user = $this->getDoctrine()
             ->getRepository(User::class)
-            ->findOneByToken($token);
+            ->findOneBy(['token' => $token]);
 
         if ($user) {
             $form = $this->createForm(ResetPasswordForm::class);
@@ -73,15 +75,18 @@ class ResetPasswordController extends Controller
                 $em->persist($user);
                 $em->flush();
 
-                $url = $this->generateUrl('homepage');
+                $url = $this->generateUrl('main_page');
+
                 return $this->redirect($url);
             }
+
             return $this->render('security/reset_password.html.twig', array(
                 'form' => $form->createView(),
                 'token' => $user->getToken(),
             ));
         }
-        $url = $this->generateUrl('homepage');
+        $url = $this->generateUrl('main_page');
+
         return $this->redirect($url);
     }
 }

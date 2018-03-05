@@ -9,45 +9,50 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
- * @ORM\Table(name="Accounts", indexes={@ORM\Index(name="User_Login_uindex", columns={"username"}) })
+ * @ORM\Table(name="Accounts", indexes={@ORM\Index(name="User_Login_uindex", columns={"strUsername"}) })
  * @UniqueEntity(fields="username", message="This username already taken")
  */
 class User implements UserInterface, \Serializable
 {
     /**
-     * @ORM\Column(type="integer", name="id_user")
+     * @ORM\Column(type="integer", name="intIdUser")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id_user;
 
     /**
-     * @ORM\Column(type="string", length=30, name="username", unique=true)
+     * @ORM\Column(type="string", length=30, name="strUsername", unique=true)
      * @Assert\NotBlank()
      */
     private $username;
 
     /**
-     * @ORM\Column(type="string", length=100, name="password")
+     * @ORM\Column(type="string", length=100, name="strPassword")
      * @Assert\NotBlank()
      */
     private $password;
 
     /**
-     * @ORM\Column(type="string", length=40, name="email")
+     * @ORM\Column(type="string", length=40, name="strEmail")
      * @Assert\NotBlank()
      */
     private $email;
 
     /**
-     * @ORM\Column(type="string", length=60, name="full_name", nullable=true)
+     * @ORM\Column(type="string", length=60, name="strFullName", nullable=true)
      */
     private $full_name;
 
     /**
-     * @ORM\Column(type="string", length=300, name="token")
+     * @ORM\Column(type="string", length=300, name="strToken")
      */
     private $token;
+
+    /**
+     * @ORM\Column(type="string", length=500, name="strPhotoPath", nullable=true)
+     */
+    private $photoPath;
 
     /**
      * @ORM\ManyToOne(targetEntity="Access")
@@ -124,6 +129,22 @@ class User implements UserInterface, \Serializable
     public function getIdUser()
     {
         return $this->id_user;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPhotoPath(): ?string
+    {
+        return $this->photoPath;
+    }
+
+    /**
+     * @param string $photoPath
+     */
+    public function setPhotoPath(?string $photoPath): void
+    {
+        $this->photoPath = $photoPath;
     }
 
     public function getRoles()

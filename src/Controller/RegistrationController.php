@@ -29,7 +29,7 @@ class RegistrationController extends Controller
         $form->handleRequest($request);
 
         return $this->render('security/registration.html.twig', array(
-            'form' => $form->createView()
+            'form' => $form->createView(),
         ));
     }
 
@@ -40,9 +40,12 @@ class RegistrationController extends Controller
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      * @Route("/create", name="create")
      */
-    public function createAction(Request $request, UserPasswordEncoderInterface $passwordEncoder, SecurityMailer $securityMailer)
-    {
-        $em   = $this->getDoctrine()->getManager();
+    public function createAction(
+        Request $request,
+        UserPasswordEncoderInterface $passwordEncoder,
+        SecurityMailer $securityMailer
+    ) {
+        $em = $this->getDoctrine()->getManager();
         $form = $this->createForm(RegistrationForm::class, new User());
 
         $form->handleRequest($request);
@@ -57,11 +60,11 @@ class RegistrationController extends Controller
 
             $access = $this->getDoctrine()
                 ->getRepository(Access::class)
-                ->findOneByName('ROLE_USER');
+                ->findOneBy(['name' => 'ROLE_USER']);
 
             $condition = $this->getDoctrine()
                 ->getRepository(UserCondition::class)
-                ->findOneByName('Active');
+                ->findOneBy(['name' => 'Not confirmed']);
 
             $user->setAccess($access);
             $user->setCondition($condition);
@@ -69,15 +72,15 @@ class RegistrationController extends Controller
             $em->persist($user);
             $em->flush();
 
-//            $securityMailer->sendMailConfirmRegistration($user);
+            $securityMailer->sendMailConfirmRegistration($user);
 
             $url = $this->generateUrl('login');
+
             return $this->redirect($url);
         }
 
-
         return $this->render('security/registration.html.twig', array(
-            'form' => $form->createView()
+            'form' => $form->createView(),
         ));
     }
 
@@ -89,16 +92,16 @@ class RegistrationController extends Controller
      */
     public function registrationConfirmAction(Request $request)
     {
-        $em   = $this->getDoctrine()->getManager();
+        $em = $this->getDoctrine()->getManager();
         $token = $request->query->get('token');
         $user = $this->getDoctrine()
             ->getRepository(User::class)
-            ->findOneByToken($token);
+            ->findOneBy(['token' => $token]);
 
         if ($user) {
             $condition = $this->getDoctrine()
                 ->getRepository(UserCondition::class)
-                ->findOneByName('Active');
+                ->findOneBy(['name' => 'Active']);
             $user->setCondition($condition);
             $em->persist($user);
             $em->flush();
