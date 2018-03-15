@@ -19,13 +19,13 @@ class RoomsListController extends Controller
      */
     public function roomsListAction(Request $request, EntityManagerInterface $em)
     {
-        $user = $this->getUser();
-
         $qb2 = $em->createQueryBuilder();
         $qb2->select()
             ->from(Room::class, 'r')
             ->addSelect('r.roomName')
         ;
+
+        $em->flush();
 
         $results = $qb2->getQuery()->getArrayResult();
 
