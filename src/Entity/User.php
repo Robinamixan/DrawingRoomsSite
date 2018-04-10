@@ -3,9 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
@@ -65,6 +63,11 @@ class User implements UserInterface, \Serializable
      * @ORM\JoinColumn(name="id_condition", referencedColumnName="id_condition")
      */
     private $condition;
+
+    /**
+     * @ORM\OneToMany(targetEntity="UserFavorites", mappedBy="user", cascade={"ALL"}, indexBy="idFavorite")
+     */
+    public $favorites;
 
     public function setUsername(string $login)
     {

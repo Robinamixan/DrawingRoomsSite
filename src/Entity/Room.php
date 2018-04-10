@@ -19,18 +19,28 @@ class Room
     private $idRoom;
 
     /**
-     * @ORM\Column(type="string", length=300, name="strRoomName")
+     * @ORM\Column(type="string", length=300, name="strName")
      */
     private $roomName;
 
     /**
-     * @ORM\OneToMany(targetEntity="Canvas", mappedBy="room", cascade={"ALL"}, indexBy="idCanvas")
+     * @ORM\Column(type="string", length=500, name="strDescription", nullable=true)
      */
-    public $canvases;
+    private $roomDescription;
+
+    /**
+     * @ORM\Column(type="string", length=50, name="strPassword", nullable=true)
+     */
+    private $roomPassword;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Picture", mappedBy="room", cascade={"ALL"}, indexBy="idPicture")
+     */
+    private $pictures;
 
     public function __construct()
     {
-        $this->canvases = new ArrayCollection();
+        $this->pictures = new ArrayCollection();
     }
 
     public function setRoomName(?string $text): void
@@ -43,17 +53,6 @@ class Room
         $this->idRoom = $number;
     }
 
-    public function addAnswer()
-    {
-//        $text = "sdsdsd";
-//        $flag = true;
-//        $canvas = new Canvas();
-//        $canvas->setCanvasName($text);
-//        $canvas->setFlagActive($flag);
-//        $canvas->setQuestion($this);
-//        $this->canvases[] = $canvas;
-    }
-
     public function getRoomName()
     {
         return $this->roomName;
@@ -61,11 +60,61 @@ class Room
 
     public function getCanvases()
     {
-        return $this->canvases;
+        return $this->pictures;
     }
 
     public function getIdRoom()
     {
         return $this->idRoom;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getRoomDescription()
+    {
+        return $this->roomDescription;
+    }
+
+    /**
+     * @param mixed $roomDescription
+     */
+    public function setRoomDescription($roomDescription): void
+    {
+        $this->roomDescription = $roomDescription;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRoomPassword()
+    {
+        return $this->roomPassword;
+    }
+
+    /**
+     * @param mixed $roomPassword
+     */
+    public function setRoomPassword($roomPassword): void
+    {
+        $this->roomPassword = $roomPassword;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPictures()
+    {
+        return $this->pictures;
+    }
+
+    /**
+     * @param mixed $pictures
+     */
+    public function setPictures($pictures): void
+    {
+        $this->pictures = $pictures;
+    }
+
+
 }

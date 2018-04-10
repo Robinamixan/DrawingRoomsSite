@@ -18,30 +18,14 @@ class Canvas
     private $idCanvas;
 
     /**
-     * @ORM\Column(type="string", length=100, name="strCanvasName")
+     * @ORM\Column(type="string", length=100, name="strName")
      */
     private $canvasName;
 
     /**
-     * @ORM\Column(type="string", length=200, name="strCanvasFilePath")
+     * @ORM\Column(type="string", length=200, name="strFilePath")
      */
     private $canvasFilePath;
-
-    /**
-     * @return mixed
-     */
-    public function getCanvasFilePath()
-    {
-        return $this->canvasFilePath;
-    }
-
-    /**
-     * @param mixed $canvasFilePath
-     */
-    public function setCanvasFilePath($canvasFilePath): void
-    {
-        $this->canvasFilePath = $canvasFilePath;
-    }
 
     /**
      * @ORM\Column(type="boolean", name="blFlagActive", nullable=true)
@@ -49,14 +33,29 @@ class Canvas
     private $flagActive;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Room", inversedBy="canvases")
-     * @ORM\JoinColumn(name="intIdRoom", referencedColumnName="intIdRoom")
+     * @ORM\Column(type="string", length=1000, name="strSettings", nullable=true)
      */
-    private $room;
+    private $canvasSettings;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Picture", inversedBy="canvases")
+     * @ORM\JoinColumn(name="intIdPicture", referencedColumnName="intIdPicture")
+     */
+    private $picture;
 
     public function __construct()
     {
         $this->flagActive = false;
+    }
+
+    public function getCanvasSettings()
+    {
+        return $this->canvasSettings;
+    }
+
+    public function setCanvasSettings($canvasSettings): void
+    {
+        $this->canvasSettings = $canvasSettings;
     }
 
     public function setCanvasName(string $text)
@@ -69,9 +68,9 @@ class Canvas
         $this->flagActive = $flag;
     }
 
-    public function setRoom(Room $question)
+    public function setPicture(Room $question)
     {
-        $this->room = $question;
+        $this->picture = $question;
     }
 
     public function getCanvasName()
@@ -89,9 +88,19 @@ class Canvas
         return $this->idCanvas;
     }
 
-    public function getRoom()
+    public function getPicture()
     {
-        return $this->room;
+        return $this->picture;
+    }
+
+    public function getCanvasFilePath()
+    {
+        return $this->canvasFilePath;
+    }
+
+    public function setCanvasFilePath($canvasFilePath): void
+    {
+        $this->canvasFilePath = $canvasFilePath;
     }
 
     public function __toString()
