@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-    List of quizzes
+    List of rooms
 {% endblock title %}
 
 {% block body %}
@@ -9,9 +9,12 @@
     <div class="row">
         <div class="col-md-2"></div>
         <div class="col-md-8" >
-            <div id="list_quizzes" class="list_quizzes">
+            <div id="list_rooms" class="list_rooms">
                 <div class="count">
                     <h3>All rooms - {{ pagination.getTotalItemCount }}</h3>
+                </div>
+                <div id="rooms_control_panel">
+                    <a class="btn btn-default" href="{{ path('room_add') }}">New Room</a>
                 </div>
                 <div id="postlist">
                     {% for room in pagination %}
@@ -85,7 +88,11 @@
 
 {% block stylesheets %}
     <style>
-        .list_quizzes {
+        #rooms_control_panel {
+            margin: 10px;
+        }
+
+        .list_rooms {
             border: 2px solid grey;
             border-radius: 15px;
             padding: 10px;
@@ -93,7 +100,7 @@
             margin-bottom: 15px;
         }
 
-        #list_quizzes .count h3 {
+        #list_rooms .count h3 {
             color: white;
         }
 

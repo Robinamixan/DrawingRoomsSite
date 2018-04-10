@@ -1,0 +1,69 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Create room
+{% endblock title %}
+
+{% block body %}
+
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8" >
+
+            {{ form_start(form) }}
+            {{ form_row(form.room_name) }}
+            {{ form_row(form.room_description) }}
+
+            <button type="submit" name="go" class="btn btn-lg">
+                <span class="fa fa-lock"></span>
+                Create
+            </button>
+            {{ form_end(form) }}
+
+        </div>
+
+        <div class="col-md-2"></div>
+    </div>
+
+    {# display navigation #}
+    <div class="navigation">
+
+    </div>
+
+{% endblock body %}
+
+{% block stylesheets %}
+    <style>
+        .list_quizzes {
+            border: 2px solid grey;
+            border-radius: 15px;
+            padding: 10px;
+            background-color: #384452;
+            margin-bottom: 15px;
+        }
+
+        #list_quizzes .count h3 {
+            color: white;
+        }
+
+        .label_info {
+            border: 1px solid grey;
+            border-radius: 5px;
+            padding: 5px;
+            margin-top: 0;
+            margin-right: 3px;
+            color: white;
+        }
+
+        .label_info.pass {
+            background-color: green;
+        }
+
+        .label_info.nopass {
+            background-color: #0b6ec4;
+        }
+    </style>
+{% endblock  stylesheets%}
+
+
+

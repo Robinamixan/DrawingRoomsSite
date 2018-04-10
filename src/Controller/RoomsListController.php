@@ -33,51 +33,14 @@ class RoomsListController extends Controller
         $pagination = $paginator->paginate(
             $results,
             $request->query->getInt('page', 1),
-            1
+            5
         );
 
-        return $this->render('RoomsPages/rooms_list.html.twig', array(
+        return $this->render('RoomsPages/rooms_list.html.twig', [
             'pagination'        => $pagination,
-        ));
+        ]);
     }
 
-    /**
-     * @Route("/rooms/add", name="room_add")
-     * @param Request $request
-     * @return JsonResponse
-     */
-    public function addRoomAction(Request $request)
-    {
-        $roomName = $request->request->get('room_name');
 
-        $file = 'image_room/'.$roomName.'.txt';
-        if (!file_exists($file)) {
-            $fp = fopen($file, 'w');
-            fclose($fp);
-            chmod($file, "0750");
-        }
-        $arrData = ['room_name' => $roomName];
-
-        return new JsonResponse($arrData);
-    }
-
-    /**
-     * @Route("/rooms/delete", name="room_delete")
-     * @param Request $request
-     * @return JsonResponse
-     */
-    public function deleteRoomAction(Request $request)
-    {
-        $roomName = $request->request->get('room_name');
-        if (!is_null($roomName)) {
-            $file = 'image_room/'.$roomName.'.txt';
-            if (file_exists($file)) {
-                unlink($file);
-            }
-        }
-        $arrData = ['room_name' => $roomName];
-
-        return new JsonResponse($arrData);
-    }
 }
 
