@@ -26,11 +26,10 @@ class CanvasesListController extends Controller
             ->leftJoin("r.pictures", "p")
             ->leftJoin("p.canvases", "c")
             ->addSelect('c.canvasName')
+            ->addSelect('c.canvasFilePath')
             ->addSelect('c.idCanvas')
             ->andWhere('r.idRoom=' . $id_room)
         ;
-
-        $em->flush();
 
         $results = $qb2->getQuery()->getResult();
 

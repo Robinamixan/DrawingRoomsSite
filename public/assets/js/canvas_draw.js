@@ -139,9 +139,8 @@ $(function () {
 
         if (e.data !== 'file_not_found') {
             var obj = $.parseJSON(e.data);
-            var currentroom = 'public/image_room/' + document.title + '.txt';
 
-            if (currentroom === obj.room)
+            if (canvas_path === obj.room)
                 image.src = obj.img;
         } else {
             canvas.style.display = "none";

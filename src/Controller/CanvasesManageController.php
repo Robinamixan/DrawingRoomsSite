@@ -6,6 +6,7 @@ use App\Entity\Canvas;
 use App\Entity\Picture;
 use App\Entity\Room;
 use App\Form\CanvasAddForm;
+use App\Form\CanvasEditForm;
 use App\Form\RoomAddForm;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -17,8 +18,10 @@ class CanvasesManageController extends Controller
 {
     /**
      * @Route("/rooms/{id_room}/canvases/add", name="canvas_add")
+     *
      * @param Request $request
-     * @return
+     * @param int $id_room
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
     public function addCanvasAction(Request $request, int $id_room)
     {
@@ -40,9 +43,68 @@ class CanvasesManageController extends Controller
             $canvas->setCanvasName($data['canvas_name']);
             $canvas->setFlagActive(true);
             $canvas->setPicture($picture);
+            $canvas->setCanvasFilePath('-');
+            $em->persist($canvas);
+            $em->flush();
 
-            $filePath = 'image_room/'.$data['canvas_name'].'.txt';
-            $relativeFilePath = 'public/image_room/'.$data['canvas_name'].'.txt';
+            $filePath = 'image_room/'.$canvas->getIdCanvas().'_'.$canvas->getCanvasName().'.txt';
+            $relativeFilePath = 'public/'.$filePath;
+            if (!file_exists($filePath)) {
+                $fp = fopen($filePath, 'w');
+                fclose($fp);
+                chmod($filePath, "0750");
+            }
+            $canvas->setCanvasFilePath($relativeFilePath);
+            $em->persist($canvas);
+            $em->flush();
+
+            $url = $this->generateUrl('canvases_list', ['id_room' => $id_room]);
+
+            return $this->redirect($url);
+        }
+
+        return $this->render(
+            'CanvasesTemplates/canvases_add.html.twig',
+            [
+                'form' => $form->createView(),
+            ]
+        );
+    }
+
+    /**
+     * @Route("/rooms/{id_room}/canvases/{id_canvas}/edit", name="canvas_edit")
+     *
+     * @param Request $request
+     * @param int $id_room
+     * @param int $id_canvas
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     */
+    public function editCanvasAction(Request $request, int $id_room, int $id_canvas)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $canvas = $em->getRepository(Canvas::class)->find($id_canvas);
+        $oldName = $canvas->getCanvasName();
+
+        $form = $this->createForm(
+            CanvasEditForm::class,
+            ['canvas_name' => $oldName]
+        );
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $data = $form->getData();
+            $canvas->setCanvasName($data['canvas_name']);
+
+            $oldFile = 'image_room/'.$canvas->getIdCanvas().'_'.$oldName.'.txt';
+            if (file_exists($oldFile)) {
+                unlink($oldFile);
+            }
+
+            $filePath = 'image_room/'.$canvas->getIdCanvas().'_'.$canvas->getCanvasName().'.txt';
+            $relativeFilePath = 'public/'.$filePath;
             if (!file_exists($filePath)) {
                 $fp = fopen($filePath, 'w');
                 fclose($fp);
@@ -54,12 +116,46 @@ class CanvasesManageController extends Controller
             $em->flush();
 
             $url = $this->generateUrl('canvases_list', ['id_room' => $id_room]);
+
             return $this->redirect($url);
         }
 
-        return $this->render('CanvasesTemplates/canvases_add.html.twig', [
-          'form'        => $form->createView(),
-        ]);
+        return $this->render(
+            'CanvasesTemplates/canvases_add.html.twig',
+            [
+                'form' => $form->createView(),
+            ]
+        );
+    }
+
+    /**
+     * @Route("/rooms/{id_room}/canvases/{id_canvas}/delete", name="canvas_delete")
+     *
+     * @param Request $request
+     * @param int $id_room
+     * @param int $id_canvas
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     */
+    public function deleteCanvasAction(Request $request, int $id_room, int $id_canvas)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $canvas = $em->getRepository(Canvas::class)->find($id_canvas);
+        $oldName = $canvas->getCanvasName();
+
+        $oldFile = 'image_room/'.$canvas->getIdCanvas().'_'.$oldName.'.txt';
+        if (file_exists($oldFile)) {
+            unlink($oldFile);
+        }
+        $picture = $canvas->getPicture();
+
+        $em->remove($canvas);
+        $em->remove($picture);
+        $em->flush();
+
+        $url = $this->generateUrl('canvases_list', ['id_room' => $id_room]);
+
+        return $this->redirect($url);
     }
 }
 

@@ -25,47 +25,17 @@
                                         <div class="col-sm-9">
                                             <a class="pull-left" href="{{ path('room_canvas', {'id_canvas': canvas.idCanvas}) }}" style="color: black; font-family: 'Raleway', sans-serif;">{{ canvas.canvasName }}</a>
                                         </div>
-                                        {#<div class="col-sm-3">#}
-                                            {#<h4 class="pull-right">#}
-                                                {#<small>{{ quiz.date_of_create | date('Y-m-d') }}</small>#}
-                                            {#</h4>#}
-                                        {#</div>#}
                                     </div>
                                 </div>
                             </div>
 
                             <div class="panel-body">
-
-                                {#<div style="width: 100%">#}
-                                    {#{{ quiz.description }}#}
-                                {#</div>#}
-                                {#<div>#}
-                                    {#Users passed -#}
-                                    {#{% if quiz.users_amount == null %}#}
-                                        {#<b>0</b>#}
-                                    {#{% else %}#}
-                                        {#<b>{{ quiz.users_amount }}</b>#}
-                                    {#{% endif %}#}
-                                {#</div>#}
-                                {#<div>#}
-                                    {#{% if quiz.users_amount != null %}#}
-                                        {#Best User - <b>{{ quiz.best_player }}</b> <{{ quiz.right_amount }}>#}
-                                    {#{% endif %}#}
-
-                                {#</div>#}
+                                <img src="{{asset(canvas.canvasFilePath, null, true)}}" alt="preview" style="height: 100px; width: 100px">
                             </div>
 
                             <div class="panel-footer" style="height: 50px; padding-top: 6px">
-
-                                {#{% if quiz.flag_passed %}#}
-                                    {#<p class="pull-left label_info pass"> Passed </p>#}
-                                    {#<p class="pull-left label_info pass"> Your result - {{ quiz.result }} </p>#}
-                                    {#<a class="btn btn-info pull-right" href="{{ path('game_result', {'id_passage': quiz.id_passage}) }}">Result</a>#}
-                                {#{% else %}#}
-                                    {#<p class="pull-left label_info nopass"> Not passed </p>#}
-                                    {#<a class="btn btn-primary pull-right" href="{{ path('game', {'id_quiz': quiz.id_quiz}) }}">Start</a>#}
-                                {#{% endif %}#}
-
+                                <a class="btn btn-default" href="{{ path('canvas_edit', {'id_room': idRoom, 'id_canvas': canvas.idCanvas}) }}">Edit</a>
+                                <a class="btn btn-default" href="{{ path('canvas_delete', {'id_room': idRoom, 'id_canvas': canvas.idCanvas}) }}">Delete</a>
                             </div>
                         </div>
 
