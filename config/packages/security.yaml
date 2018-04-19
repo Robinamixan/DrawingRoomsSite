@@ -49,3 +49,4 @@ security:
     access_control:
             # require ROLE_ADMIN for /admin*
             - { path: ^/admin, roles: ROLE_USER }
+            - { path: ^/rooms, roles: ROLE_USER }
