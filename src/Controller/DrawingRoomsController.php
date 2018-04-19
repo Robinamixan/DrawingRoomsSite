@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Entity\Canvas;
+use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -38,16 +40,22 @@ class DrawingRoomsController extends Controller
     }
 
     /**
-     * @Route("/drawing/canvas", name="room_canvas")
+     * @Route("/drawing/canvas/{id_canvas}", name="room_canvas")
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function canvasAction(Request $request)
+    public function canvasAction(Request $request, int $id_canvas, EntityManagerInterface $em)
     {
-        $canvas_title = $request->get('canvas_title');
+
+        $canvas = $this->getDoctrine()
+            ->getRepository(Canvas::class)
+            ->find($id_canvas);
+
+        $canvas_title = $canvas->getCanvasName();
         $canvas_title = $canvas_title ? $canvas_title: 'Room 1';
         return $this->render('DrawingRooms/drawcanvas.html.twig', array(
             'canvas_title' => $canvas_title,
+            'canvas_path' => $canvas->getCanvasFilePath(),
         ));
     }
 }

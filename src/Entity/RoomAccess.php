@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 class RoomAccess
 {
     /**
-     * @ORM\Column(type="integer", name="intIdBookAccess")
+     * @ORM\Column(type="integer", name="intIdRoomAccess")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */

@@ -12,30 +12,14 @@
             <div id="room_create_panel">
                 {{ form_start(form) }}
 
-                {{ form_widget(form.room_name, {'attr': {
-                    'title': 'Enter room name',
+                {{ form_widget(form.canvas_name, {'attr': {
+                    'title': 'Enter canvas name',
                     'class': 'form-control',
-                    'placeholder':'Room Name',
+                    'placeholder':'Canvas Name',
                     'pattern':'\\w+',
                 }}) }}
 
-                {{ form_row(form.room_name) }}
-                {{ form_row(form.room_description) }}
-                {{ form_row(form.flag_add_password) }}
-
-                {{ form_widget(form.password.first, {'attr': {
-                    'class': 'form-control',
-                    'placeholder':'Password',
-                    'title': 'Password must contain at least 6 characters',
-                    'pattern':'.{6,}',
-                }}) }}
-
-                {{ form_widget(form.password.second, {'attr': {
-                    'class': 'form-control',
-                    'placeholder':'Password',
-                    'title': 'Password must contain at least 6 characters',
-                    'pattern':'.{6,}',
-                }}) }}
+                {{ form_row(form.canvas_name) }}
 
                 {{ form_row(form.create) }}
                 {{ form_end(form) }}

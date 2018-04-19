@@ -9,27 +9,34 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
-class RoomsListController extends Controller
+class CanvasesListController extends Controller
 {
     /**
-     * @Route("/rooms/list", name="rooms_list")
+     * @Route("/rooms/{id_room}/canvases", name="canvases_list")
+     *
      * @param Request $request
      * @param EntityManagerInterface $em
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function roomsListAction(Request $request, EntityManagerInterface $em)
+    public function roomsListAction(Request $request, int $id_room, EntityManagerInterface $em)
     {
         $qb2 = $em->createQueryBuilder();
         $qb2->select()
             ->from(Room::class, 'r')
-            ->addSelect('r.roomName')
-            ->addSelect('r.roomDescription')
-            ->addSelect('r.idRoom')
+            ->leftJoin("r.pictures", "p")
+            ->leftJoin("p.canvases", "c")
+            ->addSelect('c.canvasName')
+            ->addSelect('c.idCanvas')
+            ->andWhere('r.idRoom=' . $id_room)
         ;
 
         $em->flush();
 
-        $results = $qb2->getQuery()->getArrayResult();
+        $results = $qb2->getQuery()->getResult();
+
+        if (is_null($results[0]['idCanvas'])) {
+            $results = [];
+        }
 
         $paginator  = $this->get('knp_paginator');
         $pagination = $paginator->paginate(
@@ -38,8 +45,9 @@ class RoomsListController extends Controller
             5
         );
 
-        return $this->render('RoomsPages/rooms_list.html.twig', [
+        return $this->render('CanvasesTemplates/canvases_list.html.twig', [
             'pagination'        => $pagination,
+            'idRoom'            => $id_room,
         ]);
     }
 

@@ -47,7 +47,6 @@ class Socket implements MessageComponentInterface {
         }
         elseif ($temp->action == "get"){
             $this->file_for_save = $temp->img;
-//            echo 'get ' . $temp->img . "\n";
             if (file_exists($this->file_for_save)) {
                 $img = file_get_contents($this->file_for_save);
                 $json_message = $this->getJSON($this->file_for_save, $img);

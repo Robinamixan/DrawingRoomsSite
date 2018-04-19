@@ -14,16 +14,16 @@
                     <h3>All rooms - {{ pagination.getTotalItemCount }}</h3>
                 </div>
                 <div id="rooms_control_panel">
-                    <a class="btn btn-default" href="{{ path('room_add') }}">New Room</a>
+                    <a class="btn btn-default" href="{{ path('canvas_add', {'id_room': idRoom}) }}">New Canvas</a>
                 </div>
                 <div id="postlist">
-                    {% for room in pagination %}
+                    {% for canvas in pagination %}
                         <div class="panel">
                             <div class="panel-heading">
                                 <div class="text-center">
                                     <div class="row">
                                         <div class="col-sm-9">
-                                            <a class="pull-left" href="{{ path('canvases_list', {'id_room': room.idRoom}) }}" style="color: black; font-family: 'Raleway', sans-serif;">{{ room.roomName }}</a>
+                                            <a class="pull-left" href="{{ path('room_canvas', {'id_canvas': canvas.idCanvas}) }}" style="color: black; font-family: 'Raleway', sans-serif;">{{ canvas.canvasName }}</a>
                                         </div>
                                         {#<div class="col-sm-3">#}
                                             {#<h4 class="pull-right">#}
@@ -35,10 +35,6 @@
                             </div>
 
                             <div class="panel-body">
-
-                                <div style="width: 100%; color: black;">
-                                    {{ room.roomDescription }}
-                                </div>
 
                                 {#<div style="width: 100%">#}
                                     {#{{ quiz.description }}#}

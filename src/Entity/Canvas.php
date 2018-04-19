@@ -68,9 +68,9 @@ class Canvas
         $this->flagActive = $flag;
     }
 
-    public function setPicture(Room $question)
+    public function setPicture(Picture $picture)
     {
-        $this->picture = $question;
+        $this->picture = $picture;
     }
 
     public function getCanvasName()

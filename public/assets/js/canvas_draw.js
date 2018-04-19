@@ -1,20 +1,23 @@
 $(function () {
 
-    var canvas, context, tool;
+    var canvas, conteadding;
     var savedImage;
     var interval = 10;
     var interval_value = 0;
+    var canvas_path;
     var width_line;
     var color_line;
     var shape_line = 'round';
 
     $("#custom").spectrum({
         color: "#f00",
+        showInput: true,
         change: function(color) {
             change_brush_color(color);
         }
     });
 
+    change_canvas_path($('#canvas_path').text());
     change_brush_width($('#width_pencil_value').val());
     change_brush_color($('#custom').spectrum('get'));
 
@@ -126,8 +129,7 @@ $(function () {
     ws = new WebSocket("ws://127.0.0.1:2346");
 
     ws.onopen = function (event) {
-        var link = 'public/image_room/' + document.title + '.txt';
-        var message = '{"action": "get", "img": "' + link + '"}';
+        var message = '{"action": "get", "img": "' + canvas_path + '"}';
         ws.send(message);
     };
 
@@ -154,8 +156,7 @@ $(function () {
 
     function send_message_socet_set() {
         var d = canvas.toDataURL("image/png");
-        var currentroom = 'public/image_room/' + document.title + '.txt';
-        var message = '{"action": "set","room":"' + currentroom + '", "img": "' + d + '"}';
+        var message = '{"action": "set","room":"' + canvas_path + '", "img": "' + d + '"}';
         ws.send(message);
     }
 
@@ -172,6 +173,10 @@ $(function () {
 
     function change_brush_color(color) {
         color_line = color.toHexString();
+    }
+
+    function change_canvas_path(path) {
+        canvas_path = path;
     }
 
     function change_brush_width(wd) {
