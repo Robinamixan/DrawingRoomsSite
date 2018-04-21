@@ -11,7 +11,7 @@
         <div class="col-md-8" >
             <div id="list_rooms" class="list_rooms">
                 <div class="count">
-                    <h3>All rooms - {{ pagination.getTotalItemCount }}</h3>
+                    <h3>All canvases - {{ pagination.getTotalItemCount }}</h3>
                 </div>
                 <div id="rooms_control_panel">
                     <a class="btn btn-default" href="{{ path('canvas_add', {'id_room': idRoom}) }}">New Canvas</a>
@@ -30,7 +30,12 @@
                             </div>
 
                             <div class="panel-body">
-                                <img src="{{asset(canvas.canvasFilePath, null, true)}}" alt="preview" style="height: 100px; width: 100px">
+                                {% if canvas.image %}
+                                    <img class="image_preview" src="{{canvas.image}}" alt="preview" style="height: 100px; width: 200px">
+                                {% else %}
+                                    <span style="color: black">Empty canvas!</span>
+                                {% endif %}
+
                             </div>
 
                             <div class="panel-footer" style="height: 50px; padding-top: 6px">
@@ -72,6 +77,10 @@
 
         #list_rooms .count h3 {
             color: white;
+        }
+
+        .image_preview {
+            border: black solid 1px;
         }
 
         .label_info {

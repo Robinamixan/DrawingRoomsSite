@@ -53,7 +53,7 @@ class DrawingRoomsController extends Controller
 
         $canvas_title = $canvas->getCanvasName();
         $canvas_title = $canvas_title ? $canvas_title: 'Room 1';
-        return $this->render('DrawingRooms/drawcanvas.html.twig', array(
+        return $this->render('CanvasesTemplates/drawcanvas.html.twig', array(
             'canvas_title' => $canvas_title,
             'canvas_path' => $canvas->getCanvasFilePath(),
         ));

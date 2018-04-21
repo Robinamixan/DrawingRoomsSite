@@ -52,7 +52,6 @@ class CanvasesManageController extends Controller
             if (!file_exists($filePath)) {
                 $fp = fopen($filePath, 'w');
                 fclose($fp);
-                chmod($filePath, "0750");
             }
             $canvas->setCanvasFilePath($relativeFilePath);
             $em->persist($canvas);
@@ -100,6 +99,7 @@ class CanvasesManageController extends Controller
 
             $oldFile = 'image_room/'.$canvas->getIdCanvas().'_'.$oldName.'.txt';
             if (file_exists($oldFile)) {
+                $fileContain = file_get_contents($oldFile);
                 unlink($oldFile);
             }
 
@@ -108,8 +108,8 @@ class CanvasesManageController extends Controller
             if (!file_exists($filePath)) {
                 $fp = fopen($filePath, 'w');
                 fclose($fp);
-                chmod($filePath, "0750");
             }
+            file_put_contents($filePath, $fileContain);
             $canvas->setCanvasFilePath($relativeFilePath);
 
             $em->persist($canvas);

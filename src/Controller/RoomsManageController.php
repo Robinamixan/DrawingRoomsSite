@@ -51,16 +51,7 @@ class RoomsManageController extends Controller
      */
     public function deleteRoomAction(Request $request)
     {
-        $roomName = $request->request->get('room_name');
-        if (!is_null($roomName)) {
-            $file = 'image_room/'.$roomName.'.txt';
-            if (file_exists($file)) {
-                unlink($file);
-            }
-        }
-        $arrData = ['room_name' => $roomName];
 
-        return new JsonResponse($arrData);
     }
 }
 

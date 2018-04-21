@@ -37,6 +37,13 @@ class CanvasesListController extends Controller
             $results = [];
         }
 
+        foreach ($results as $key => $result) {
+            if (file_exists('../'.$result['canvasFilePath'])) {
+                $fileContain = file_get_contents('../'.$result['canvasFilePath']);
+                $results[$key]['image'] = $fileContain;
+            }
+        }
+
         $paginator  = $this->get('knp_paginator');
         $pagination = $paginator->paginate(
             $results,
