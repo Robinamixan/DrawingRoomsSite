@@ -38,6 +38,11 @@ class Room
      */
     private $pictures;
 
+    /**
+     * @ORM\OneToMany(targetEntity="RoomAccess", mappedBy="room", cascade={"ALL"}, indexBy="idRoom")
+     */
+    private $roomAccess;
+
     public function __construct()
     {
         $this->pictures = new ArrayCollection();

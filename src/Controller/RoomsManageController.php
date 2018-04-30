@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\Access;
 use App\Entity\Room;
+use App\Entity\RoomAccess;
 use App\Form\RoomAddForm;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -32,7 +34,19 @@ class RoomsManageController extends Controller
                 $room->setRoomPassword($data['password']);
             }
 
+            $access = $this->getDoctrine()
+                ->getRepository(Access::class)
+                ->findOneBy(['name' => 'ROLE_USER']);
+
+            $roomAccess = new RoomAccess();
+            $roomAccess->setRoom($room);
+            $roomAccess->setUser($this->getUser());
+            $roomAccess->setAccess($access);
+
             $em->persist($room);
+            $em->flush();
+
+            $em->persist($roomAccess);
             $em->flush();
 
             $url = $this->generateUrl('rooms_list');

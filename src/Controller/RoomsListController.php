@@ -22,12 +22,14 @@ class RoomsListController extends Controller
         $qb2 = $em->createQueryBuilder();
         $qb2->select()
             ->from(Room::class, 'r')
+            ->leftJoin("r.roomAccess", "a")
+            ->leftJoin("a.user", "u")
+            ->addSelect('u.username')
             ->addSelect('r.roomName')
             ->addSelect('r.roomDescription')
             ->addSelect('r.idRoom')
+            ->addOrderBy('r.idRoom')
         ;
-
-        $em->flush();
 
         $results = $qb2->getQuery()->getArrayResult();
 

@@ -61,14 +61,10 @@
 
                             <div class="panel-footer" style="height: 50px; padding-top: 6px">
 
-                                {#{% if quiz.flag_passed %}#}
-                                    {#<p class="pull-left label_info pass"> Passed </p>#}
-                                    {#<p class="pull-left label_info pass"> Your result - {{ quiz.result }} </p>#}
-                                    {#<a class="btn btn-info pull-right" href="{{ path('game_result', {'id_passage': quiz.id_passage}) }}">Result</a>#}
-                                {#{% else %}#}
-                                    {#<p class="pull-left label_info nopass"> Not passed </p>#}
-                                    {#<a class="btn btn-primary pull-right" href="{{ path('game', {'id_quiz': quiz.id_quiz}) }}">Start</a>#}
-                                {#{% endif %}#}
+                                {% if room.username %}
+                                    <p class="pull-left label_info pass">Creator - {{ room.username }} </p>
+                                {% else %}
+                                {% endif %}
 
                             </div>
                         </div>
